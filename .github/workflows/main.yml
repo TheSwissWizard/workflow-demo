@@ -1,1 +1,33 @@
+name: default-workflow
 
+on:
+ workflow_call:
+  inputs:
+    name:
+        required: true
+        type: string
+    java:
+        required: true
+        type: string 
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.java }}
+          distribution: 'temurin'
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build
+        run: mvn clean compile
+      - name: Test
+        run: mvn verify
