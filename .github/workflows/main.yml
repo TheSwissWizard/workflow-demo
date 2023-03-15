@@ -30,11 +30,12 @@ jobs:
       - name: Extract project version
         run: echo "PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Echo project version
-        run: echo $PROJECT_VERSION
+        run: echo ${{ env.PROJECT_VERSION }}
       - name: Build and test
         run: mvn clean verify
       - name: Build and push docker image
         run: |
          docker login --username=${{ secrets.DOCKER_HUB_USERNAME }} --password=${{ secrets.DOCKER_HUB_PASSWORD }}
          docker build . --file Dockerfile --tag ${{ inputs.name }}:$PROJECT_VERSION
+         echo "${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.name }}:$PROJECT_VERSION"
          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.name }}:$PROJECT_VERSION
