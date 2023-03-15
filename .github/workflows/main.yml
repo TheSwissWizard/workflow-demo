@@ -1,4 +1,4 @@
-name: default-workflow
+name: main
 
 on:
  workflow_call:
@@ -33,3 +33,8 @@ jobs:
         run: echo $PROJECT_VERSION
       - name: Build and test
         run: mvn clean verify
+      - name: Build and push docker image
+        run: |
+         docker login --username=${{ secrets.DOCKER_HUB_USERNAME }} --password=${{ secrets.DOCKER_HUB_PASSWORD }}
+         docker build . --file Dockerfile --tag ${{ inputs.name }}:${{ PROJECT_VERSION }}
+         docker push
