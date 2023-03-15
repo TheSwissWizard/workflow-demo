@@ -38,8 +38,3 @@ jobs:
         run: echo ${{ env.PROJECT_VERSION }}
       - name: Build and test
         run: mvn clean verify
-      - name: Build and push docker image
-        run: echo "$DOCKER_HUB_USERNAME"
-        env:
-         DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-         DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
