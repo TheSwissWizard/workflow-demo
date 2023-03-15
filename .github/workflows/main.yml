@@ -37,4 +37,4 @@ jobs:
         run: |
          docker login --username=${{ secrets.DOCKER_HUB_USERNAME }} --password=${{ secrets.DOCKER_HUB_PASSWORD }}
          docker build . --file Dockerfile --tag ${{ inputs.name }}:$PROJECT_VERSION
-         docker push -a ${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.name }}
+         docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ inputs.name }}:$PROJECT_VERSION
