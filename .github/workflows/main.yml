@@ -29,5 +29,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Extract project version
         run: echo "PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      - name: Echo project version
+        run: echo $PROJECT_VERSION
       - name: Build and test
         run: mvn clean verify
